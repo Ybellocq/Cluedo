@@ -8,6 +8,7 @@
 :- discontiguous femme_de/2.
 :- discontiguous beaupere_de/2.
 :- discontiguous bellemere_de/2.
+:- discontiguous ancetre_de/2.
 
 
 homme(marc).
@@ -62,3 +63,7 @@ femme_de(X, Y) :- femme(Y), homme(X), mari_de(X, Y).
 beaupere_de(X, Y) :- homme(X), mari_de(X, Z), enfant_de(Y, Z).
 
 bellemere_de(X, Y) :- femme(X), femme_de(X, Z), enfant_de(Y, Z).
+
+ancetre_de(X, Y) :- enfant_de(Y, X).
+
+ancetre_de(X, Y) :- enfant_de(Z, X), ancetre_de(Z, Y).
