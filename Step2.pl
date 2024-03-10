@@ -10,7 +10,7 @@ solution(Houses, FishOwner) :-
         maison(2, _, _, _, _, _),
         maison(3, _, _, _, _, _),
         maison(4, _, _, _, _, _),
-        maison(5, _, _, _, _, _),
+        maison(5, _, _, _, _, _)
     ],
     member(maison(_, anglais, rouge, _, _, _), Houses),
 	member(maison(_, suedois, _, chien, _, _), Houses),
