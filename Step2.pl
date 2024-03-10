@@ -34,5 +34,3 @@ solution(Houses, FishOwner) :-
 	member(maison(EAU, _, _, _, eau, _), Houses),
 	next_to(BC, EAU),
 	member(maison(_, FishOwner, _, poisson, _, _), Houses).
-
-

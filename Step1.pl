@@ -4,7 +4,6 @@
 % :- à droite est appelé le corps de la règle, contient les conditions ou les arguments qui doivent être vrai.
 % discontiguous est une directive Prolog pour indiquer les clauses de ces prédicats qui ne sont pas contiguës.
 % 
-
 :- discontiguous mari_de/2.
 :- discontiguous femme_de/2.
 :- discontiguous beaupere_de/2.
