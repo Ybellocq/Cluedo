@@ -1,3 +1,5 @@
+
+
 maisons([
     maison(_,_,_,_,_) ,
     maison(_,_,_,_,_) ,
@@ -8,7 +10,6 @@ maisons([
 
 % maison(couleur, nationalité, boisson, cigare, animal).
 
-% Les faits.
 maison(rouge, anglais, _, _, _).
 maison(_, suédois, _, _, chien).
 maison(_, danois, thé, _, _).
@@ -25,21 +26,17 @@ maison(bleue, _, _, _, _).
 maison(_, _, eau, _, _).
 maison(_, _, poisson, _, _).
 
-% Les règles.
-
-% Afficher une liste.
 afficher_liste([]).
 afficher_liste([Maison|Reste]) :- writeln(Maison), afficher_liste(Reste).
-
 
 appartient_à(X,[X|_]).
 appartient_à(X,[_|L]) :- appartient_à(X,L).
 
-% Vérifier si A est à gauche de B dans une liste.
+
 est_à_gauche_de(A, B, [A, B|_]).
 est_à_gauche_de(A, B, [_|Y]) :- est_à_gauche_de(A, B, Y).
 
-% Vérifier si A est à côté de B dans une liste.
+
 est_à_côté_de(A, B, [A, B|_]).
 est_à_côté_de(A, B, [B, A|_]).
 est_à_côté_de(A, B, [_|Y]) :- est_à_côté_de(A, B, Y).
