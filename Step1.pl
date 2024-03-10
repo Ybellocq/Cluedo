@@ -1,15 +1,16 @@
-% cluedo rush solo dimanche 10/03/2024
-% /1 ou /2 est le prédicat autrement dit le nombre d'argument.
-% :- a gauche est une condition appelé la tête de la règle, contient l'argument principal que l'on veut définir.
-% :- a droite est appelé le corps de la règle, contient les conditions ou les arguments qui doivent être vrai.
+% cluedo rush solo dimanche 10/03024
+% le prédicat c'est le nom de la fonction et l'arité c'est le /n qui contient le nombre d'argument passé en parametre
+% :- à gauche est une condition appelée la tête de la règle, contient l'argument principal que l'on veut définir.
+% :- à droite est appelé le corps de la règle, contient les conditions ou les arguments qui doivent être vrai.
 % discontiguous est une directive Prolog pour indiquer les clauses de ces prédicats qui ne sont pas contiguës.
+% 
 
 :- discontiguous mari_de/2.
 :- discontiguous femme_de/2.
 :- discontiguous beaupere_de/2.
 :- discontiguous bellemere_de/2.
 :- discontiguous ancetre_de/2.
-
+:- discontiguous enfant_de/2.
 
 homme(marc).
 homme(luc).
@@ -55,15 +56,26 @@ bellemere_de(sylvie, anne).
 bellemere_de(julie, eve).
 bellemere_de(paul, sylvie).
 
+enfant_de(anne, jean).
+enfant_de(anne, jules).
+enfant_de(anne, leon).
+enfant_de(betty, lisa).
+enfant_de(betty, loic).
+enfant_de(betty, gerard).
+enfant_de(lisa, jacques).
+enfant_de(sylvie, herve).
+enfant_de(sylvie, julie).
+enfant_de(eve, paul).
+enfant_de(eve, valerie).
 
-mari_de(X, Y) :- homme(X), femme(Y), mari_de(Y, X).
+parent_de(X, Y) :- enfant_de(Y, X).
 
-femme_de(X, Y) :- femme(Y), homme(X), mari_de(X, Y).
+beaupere_de(X, Y) :- enfant_de(Z, Y) , mari_de(X, Z) , homme(Y).
 
-beaupere_de(X, Y) :- homme(X), mari_de(X, Z), enfant_de(Y, Z).
+bellemere_de(X, Y) :- enfant_de(Z, Y) , femme_de(Z, X) , femme(Y).
 
-bellemere_de(X, Y) :- femme(X), femme_de(X, Z), enfant_de(Y, Z).
+enfant_de(X, Y) :- femme_de(X, Z) , enfant_de(Z, Y).
 
 ancetre_de(X, Y) :- enfant_de(Y, X).
 
-ancetre_de(X, Y) :- enfant_de(Z, X), ancetre_de(Z, Y).
+ancetre_de(X, Y) :- enfant_de(Y, Z) , ancetre_de(X, Z).

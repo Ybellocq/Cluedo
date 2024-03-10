@@ -27,9 +27,9 @@ appartient_a(X,[X|_]).
 appartient_a(X,[_|L]) :- appartient_a(X,L).
 est_a_gauche_de(A, B, [A, B|_]).
 est_a_gauche_de(A, B, [_|Y]) :- est_a_gauche_de(A, B, Y).
-est_a_côte_de(A, B, [A, B|_]).
-est_a_côte_de(A, B, [B, A|_]).
-est_a_côte_de(A, B, [_|Y]) :- est_a_côte_de(A, B, Y).
+est_a_cote_de(A, B, [A, B|_]).
+est_a_cote_de(A, B, [B, A|_]).
+est_a_cote_de(A, B, [_|Y]) :- est_a_cote_de(A, B, Y).
 resoudre :-
     maisons(MAISONS),
     appartient_a(maison(rouge, anglais, _, _, _), MAISONS),
@@ -41,12 +41,12 @@ resoudre :-
     appartient_a(maison(jaune, _, _, dunhill, _), MAISONS),
     MAISONS = [_, _, maison(_, _, lait, _, _), _, _],
     MAISONS = [maison(_, norvegien, _, _, _)|_],
-    est_a_côte_de(maison(_, _, _, blend, _), maison(_, _, chats, _, _), MAISONS),
-    est_a_côte_de(maison(_, _, dunhill, _, cheval), maison(_, _, _, _, dunhill), MAISONS),
+    est_a_cote_de(maison(_, _, _, blend, _), maison(_, _, chats, _, _), MAISONS),
+    est_a_cote_de(maison(_, _, dunhill, _, cheval), maison(_, _, _, _, dunhill), MAISONS),
     appartient_a(maison(_, _, biere, blue_master, _), MAISONS),
     appartient_a(maison(_, allemand, _, prince, _), MAISONS),
-    est_a_côte_de(maison(_, norvegien, _, _, _), maison(bleue, _, _, _, _), MAISONS),
-    est_a_côte_de(maison(_, _, _, blend, _), maison(_, _, _, eau, _), MAISONS),
+    est_a_cote_de(maison(_, norvegien, _, _, _), maison(bleue, _, _, _, _), MAISONS),
+    est_a_cote_de(maison(_, _, _, blend, _), maison(_, _, _, eau, _), MAISONS),
     appartient_a(maison(_, _, poisson, _, _), MAISONS),
     afficher_liste(MAISONS).
 %- L’Anglais vit dans la maison rouge.
@@ -58,9 +58,9 @@ resoudre :-
 %- Le proprietaire de la maison jaune fume des Dunhill.
 %- La personne qui vit dans la maison du centre boit du lait.
 %- Le Norvegien habite dans la première maison.
-%- L’homme qui fume des Blend vit a côte de celui qui a des chats.
+%- L’homme qui fume des Blend vit a cote de celui qui a des chats.
 %- L’homme qui a un cheval est le voisin de celui qui fume des Dunhill.
 %- Le proprietaire qui fume des Blue Master boit de la bière.
 %- L’Allemand fume des prince.
-%- Le Norvegien vit juste a côte de la maison bleue.
+%- Le Norvegien vit juste a cote de la maison bleue.
 %- L’homme qui fume des Blend a un voisin qui boit de l’eau.
