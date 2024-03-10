@@ -1,66 +1,38 @@
-maisons([
-    maison(_,_,_,_,_) ,
-    maison(_,_,_,_,_) ,
-    maison(_,_,_,_,_) ,
-    maison(_,_,_,_,_) ,
-    maison(_,_,_,_,_)
-]).
-% maison(couleur, nationalite, boisson, cigare, animal).
-maison(rouge, anglais, _, _, _).
-maison(_, suedois, _, _, chien).
-maison(_, danois, the, _, _).
-maison(verte, _, cafe, _, _).
-maison(_, _, _, pall_mall, oiseaux).
-maison(jaune, _, _, dunhill, _).
-maison(_, _, lait, _, _).
-maison(_, norvegien, _, _, _).
-maison(_, _, _, blend, chats).
-maison(_, _, _, dunhill, cheval).
-maison(_, _, biere, blue_master, _).
-maison(_, allemand, _, prince, _).
-maison(bleue, _, _, _, _).
-maison(_, _, eau, _, _).
-maison(_, _, poisson, _, _).
-afficher_liste([]).
-afficher_liste([Maison|Reste]) :- writeln(Maison), afficher_liste(Reste).
-appartient_a(X,[X|_]).
-appartient_a(X,[_|L]) :- appartient_a(X,L).
-est_a_gauche_de(A, B, [A, B|_]).
-est_a_gauche_de(A, B, [_|Y]) :- est_a_gauche_de(A, B, Y).
-est_a_cote_de(A, B, [A, B|_]).
-est_a_cote_de(A, B, [B, A|_]).
-est_a_cote_de(A, B, [_|Y]) :- est_a_cote_de(A, B, Y).
-resoudre :-
-    maisons(MAISONS),
-    appartient_a(maison(rouge, anglais, _, _, _), MAISONS),
-    appartient_a(maison(_, suedois, _, _, chien), MAISONS),
-    appartient_a(maison(_, danois, the, _, _), MAISONS),
-    est_a_gauche_de(maison(verte, _, cafe, _, _), maison(blanche, _, _, _, _), MAISONS),
-    appartient_a(maison(verte, _, cafe, _, _), MAISONS),
-    appartient_a(maison(_, _, _, pall_mall, oiseaux), MAISONS),
-    appartient_a(maison(jaune, _, _, dunhill, _), MAISONS),
-    MAISONS = [_, _, maison(_, _, lait, _, _), _, _],
-    MAISONS = [maison(_, norvegien, _, _, _)|_],
-    est_a_cote_de(maison(_, _, _, blend, _), maison(_, _, chats, _, _), MAISONS),
-    est_a_cote_de(maison(_, _, dunhill, _, cheval), maison(_, _, _, _, dunhill), MAISONS),
-    appartient_a(maison(_, _, biere, blue_master, _), MAISONS),
-    appartient_a(maison(_, allemand, _, prince, _), MAISONS),
-    est_a_cote_de(maison(_, norvegien, _, _, _), maison(bleue, _, _, _, _), MAISONS),
-    est_a_cote_de(maison(_, _, _, blend, _), maison(_, _, _, eau, _), MAISONS),
-    appartient_a(maison(_, _, poisson, _, _), MAISONS),
-    afficher_liste(MAISONS).
-%- L’Anglais vit dans la maison rouge.
-%- Le Suedois a des chiens.
-%- Le Danois boit du the.
-%- La maison verte est a gauche de la maison blanche.
-%- Le proprietaire de la maison verte boit du cafe.
-%- La personne qui fume des Pall Mall a des oiseaux.
-%- Le proprietaire de la maison jaune fume des Dunhill.
-%- La personne qui vit dans la maison du centre boit du lait.
-%- Le Norvegien habite dans la première maison.
-%- L’homme qui fume des Blend vit a cote de celui qui a des chats.
-%- L’homme qui a un cheval est le voisin de celui qui fume des Dunhill.
-%- Le proprietaire qui fume des Blue Master boit de la bière.
-%- L’Allemand fume des prince.
-%- Le Norvegien vit juste a cote de la maison bleue.
-%- L’homme qui fume des Blend a un voisin qui boit de l’eau.
+est_a_droite_de(X, Y) :- X is Y+1.
+est_a_gauche_de(X, Y) :- est_a_droite_de(Y, X).
+
+next_to(X, Y) :- est_a_droite_de(X, Y).
+next_to(X, Y) :- est_a_gauche_de(X, Y).
+
+solution(Houses, FishOwner) :-
+	Houses = [
+        maison(1, _, _, _, _, _),
+        maison(2, _, _, _, _, _),
+        maison(3, _, _, _, _, _),
+        maison(4, _, _, _, _, _),
+        maison(5, _, _, _, _, _),
+    ],
+    member(maison(_, anglais, rouge, _, _, _), Houses),
+	member(maison(_, suedois, _, chien, _, _), Houses),
+	member(maison(_, danois, _, _, the, _), Houses),
+	member(maison(VE, _, verte, _, _, _), Houses),
+	member(maison(BL, _, blanche, _, _, _), Houses),
+	est_a_gauche_de(VE, BL),
+	member(maison(_, _, verte, _, cafe, _), Houses),
+	member(maison(_, _, _, oiseau, _, pall_hall), Houses),
+	member(maison(DUN, _, jaune, _, _, dunhill), Houses),
+	member(maison(3, _, _, _, lait, _), Houses),
+	member(maison(1, norvegien, _, _, _, _), Houses),
+	member(maison(BC, _, _, _, _, blend), Houses),
+	member(maison(CAT, _, _, chat, _, _), Houses),
+	next_to(BC, CAT),
+	member(maison(CHEV, _, _, cheval, _, _), Houses),
+	next_to(CHEV, DUN),
+	member(maison(_, _, _, _, biere, blue_master), Houses),
+	member(maison(_, allemand, _, _, _, prince), Houses),
+	member(maison(2, _, bleu, _, _, _), Houses),
+	member(maison(EAU, _, _, _, eau, _), Houses),
+	next_to(BC, EAU),
+	member(maison(_, FishOwner, _, poisson, _, _), Houses).
+
+
