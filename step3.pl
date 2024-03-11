@@ -1,42 +1,42 @@
 % Définition de l'état initial
 state_initial(state(e, e, e, e)). % Tous les éléments sont initialement sur la rive est
 % Définition de l'état final
-state_final(state(oe, oe, oe, oe)). % Tous les éléments sont finalement sur la rive oe
+state_final(state(w, w, w, w)). % Tous les éléments sont finalement sur la rive ouest
 
 % Loup mange mouton
-unsafe(state(e, oe, oe, _)).
-unsafe(state(oe, e, e, _)).
+unsafe(state(e, w, w, _)).
+unsafe(state(w, e, e, _)).
 
 % Mouton mange chou
-unsafe(state(e, _, oe, oe)).
-unsafe(state(oe, _, e, e)).
+unsafe(state(e, _, w, w)).
+unsafe(state(w, _, e, e)).
 
 % cross Sides
-cross(oe, e).
-cross(e, oe).
+cross(w, e).
+cross(e, w).
 
-% est-ce que le mouvement est valide
-move(state(X, X, chevre, chou), state(Y, Y, chevre, chou)) :-
+% Valid Moves
+move(state(X, X, Chevre, Chou), state(Y, Y, Chevre, Chou)) :-
     cross(X, Y),
-    \+unsafe(state(Y, Y, chevre, chou)).
+    \+unsafe(state(Y, Y, Chevre, Chou)).
 
-move(state(X, loup, X, chou), state(Y, loup, Y, chou)) :-
+move(state(X, Loup, X, Chou), state(Y, Loup, Y, Chou)) :-
     cross(X, Y),
-    \+unsafe(state(Y, loup, Y, chou)).
+    \+unsafe(state(Y, Loup, Y, Chou)).
 
-move(state(X, loup, chevre, X), state(Y, loup, chevre, Y)) :-
+move(state(X, Loup, Chevre, X), state(Y, Loup, Chevre, Y)) :-
     cross(X, Y),
-    \+unsafe(state(Y, loup, chevre, Y)).
+    \+unsafe(state(Y, Loup, Chevre, Y)).
 
-move(state(X, loup, chevre, chou), state(Y, loup, chevre, chou)) :-
+move(state(X, Loup, Chevre, Chou), state(Y, Loup, Chevre, Chou)) :-
     cross(X, Y),
-    \+unsafe(state(Y, loup, chevre, chou)).
+    \+unsafe(state(Y, Loup, Chevre, Chou)).
 
-% Verifie si l'etat est different
+% Regarde si l'etat a deja ete vu
 not_seen(State, Log) :-
     \+member(State, Log).
 
-% trouve le chemfin vers l'etat final est le parcour a l'envers pour l'afficher
+% regarde le dernier chemin et imprime les logs en reverse
 path(State, State, Log) :-
     reverse(Log, RLog),
     maplist(term_to_atom, RLog, LogAtoms),
@@ -44,13 +44,13 @@ path(State, State, Log) :-
     length(Log, Length),
     format("Solution of length ~d: ~q\n", [Length, Solution]).
 
-% trouve le chemin du prochain coup en recursif pour trouver le chemin final
+% trouve le chemin de mainere recursive en regardant si le coup a deja ete fait
 path(Current, Goal, Log) :-
     move(Current, Next),
     not_seen(Next, Log),
     path(Next, Goal, [Next | Log]).
 
-% solution
+% Objective
 solution :-
     state_initial(Start),
     state_final(Goal),
